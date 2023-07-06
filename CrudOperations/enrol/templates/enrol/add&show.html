@@ -1,0 +1,68 @@
+{% extends 'enrol/base.html' %}
+{% load static %}
+
+{% block title %}
+        Employees Enrollment-Shows 
+{% endblock title %}
+
+
+{% block content %}
+    <h2 class="text-center alert alert-danger">Employees Data Show & Enroll</h2>
+    <div class="row">
+        <div class="col-sm-4">
+            <h5 class="text-center alert alert-info">New Employee Enrolls Here</h5>
+                <form  method="POST" novalidate >
+                    {% csrf_token %}
+                    {% if message %}
+                        <h5>{{message}}</h5>
+                    {% else %}   
+                        {{form.as_p}}
+                        <input type="submit" class="btn btn-success" value="Add">
+                    {% endif %}
+                </form>
+                <form action="{% url "search"  %}" class="mt-4 " method="GET" >
+                    {% csrf_token %}
+                    <input type="text" name="query" class="alert alert-secondary" placeholder="Search by name or department">
+                    <input type="submit" class="btn btn-outline-primary btn-sm" value="Search">
+                </form>
+        </div>
+        <div class="col-sm-7">
+            <h5 class="text-center alert alert-primary">Employees Enrolled  </h5>
+            {% if inst %}
+                <table class="table table-hover" >
+                <thead>  
+                <tr>
+                    <th>id</th>
+                    <th>Employee</th>
+                    <th>Department</th>
+                    <th>Position</th>
+                    <th>Salary</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                    {% for i in inst %}
+                        <tr>
+                        <th>{{i.id}}</th>
+                        <td>{{i.name}}</td> 
+                        <td>{{i.department}}</td> 
+                        <td>{{i.position}}</td> 
+                        <td>{{i.salary}}</td> 
+                        <td> 
+                            <a href="{% url "update" i.id %}" class="btn btn-warning btn-sm ">Update</a>
+                            <form action="{% url "delete" i.id %}" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                            </form>
+                        </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <h6>Not found any data in database</h6>
+            {% endif %}
+            
+        </div>
+    </div>
+{% endblock content %}
+
+

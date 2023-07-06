@@ -1,0 +1,26 @@
+{% extends 'enrol/base.html' %}
+{% load static %}
+
+{% block title %}
+    Update
+{% endblock title %}
+
+{% block content %}
+    <h2 class="text-center alert alert-danger">Employees Data Show & Enroll</h2>
+    <div class="row">
+        <div class="col-sm-8 offset-2">
+            <h5 class=" text-center alert alert-dark"> Update Required Field(s) </h5>
+            <form  method="POST" novalidate >
+                {% csrf_token %}
+                {% if message %}
+                    <h5>{{message}}</h5>
+                {% else %}   
+                    {{form.as_p}}
+                    <input type="submit" class="btn btn-success" value="Add">
+                {% endif %}
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+
+
